@@ -1,8 +1,13 @@
 package main;
 
+
 import javax.swing.*;
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Classe principale de l'éditeur de texte.
@@ -11,6 +16,8 @@ import java.awt.event.ActionListener;
 public class EditeurDeTexte extends JFrame implements Runnable {
 
     private JTextPane zoneDeTexte;
+    
+    private FenetreRechercheRemplacement fenetreRechercheRemplacement;
 
     /**
      * Constructeur de la classe EditeurDeTexte.
@@ -21,6 +28,19 @@ public class EditeurDeTexte extends JFrame implements Runnable {
         initialiserFenetre();
         ajouterZoneDeTexte();
         creerBarreDeMenu();
+ 
+        
+        zoneDeTexte.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+           
+               
+                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
+                    fenetreRechercheRemplacement = new FenetreRechercheRemplacement(EditeurDeTexte.this);
+                    fenetreRechercheRemplacement.setVisible(true);
+                }
+            }
+        });
     }
 
     /**
