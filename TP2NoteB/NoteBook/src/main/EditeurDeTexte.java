@@ -2,7 +2,7 @@ package main;
 
 
 import javax.swing.*;
-
+import javax.swing.undo.UndoManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +15,20 @@ import java.awt.event.KeyEvent;
  */
 public class EditeurDeTexte extends JFrame implements Runnable {
 
+	/**
+	 * Le panneau de zone de texte
+	 */
     private JTextPane zoneDeTexte;
     
+    /**
+     * La fenetre pour effectuer des recherches et des remplacements
+     */
     private FenetreRechercheRemplacement fenetreRechercheRemplacement;
+    
+    /**
+     * Permet de defaire ou de refaire une action sur le panneau de texte
+     */
+    private UndoManager refaireDefaire;
 
     /**
      * Constructeur de la classe EditeurDeTexte.
@@ -28,14 +39,48 @@ public class EditeurDeTexte extends JFrame implements Runnable {
         initialiserFenetre();
         ajouterZoneDeTexte();
         creerBarreDeMenu();
- 
         
+        /*
+         * on cree une instance d'UndoManager 
+         */
+        refaireDefaire = new UndoManager();
+        
+        /*
+         * j'ajoute un ecouteur à la zone de texte pour les événements d'édition
+         *  qui peuvent être annulés
+         */
+        zoneDeTexte.getDocument().addUndoableEditListener(refaireDefaire);
+ 
+        /*
+         * j'ajoute un ecouteur de touche à la zone de texte
+         */
         zoneDeTexte.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-           
+            	
+            	/*
+            	 * Lorsqu'on appuie sur ctrl + z, on defait la derniere action
+            	 */
+            	if ((e.getKeyCode() == KeyEvent.VK_Z) && e.isControlDown()) {
+                    if (refaireDefaire.canUndo()) {
+                        refaireDefaire.undo();
+                    }
+                }
+            	
+            	/*
+            	 * Lorsqu'on appuie sur ctrl + y, on refait la derniere action
+            	 * seulement si elle a été defaite auparvant
+            	 */
+            	if ((e.getKeyCode() == KeyEvent.VK_Y) && e.isControlDown()) {
+                     if (refaireDefaire.canRedo()) {
+                         refaireDefaire.redo();
+                     }
+                 }
                
-                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
+            	/*
+            	 * Lorsqu'on appuie sur ctrl + f, ca cree et ouvre la fenetre de recherche
+            	 */
+                if ((e.getKeyCode() == KeyEvent.VK_F) && e.isControlDown()) {
                     fenetreRechercheRemplacement = new FenetreRechercheRemplacement(EditeurDeTexte.this);
                     fenetreRechercheRemplacement.setVisible(true);
                 }
