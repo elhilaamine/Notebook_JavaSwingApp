@@ -1,13 +1,11 @@
 package main;
 
 
-import javax.swing.*;
-import javax.swing.undo.UndoManager;
-
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.*;
+import javax.swing.undo.UndoManager;
 
 /**
  * Classe principale de l'éditeur de texte.
