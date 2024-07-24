@@ -16,10 +16,8 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
     private Highlighter.HighlightPainter painter;
 
     /**
-     * Constructeur par défaut de la classe JTextPaneCtrlF.
-     * <p>
-     * Initialise le highlighter pour marquer les résultats de recherche.
-     * </p>
+     * Constructeur par défaut de la classe JTextPaneCtrlF
+     * Initialise le highlighter pour marquer les résultats de recherche
      */
     public JTextPaneCtrlF() {
         super();
@@ -38,27 +36,35 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
      * @param caseSensitive Si true, la recherche est sensible à la casse.
      */
     public void rechercher(String text, boolean caseSensitive) {
+
         highlighter.removeAllHighlights();
 
         if (text == null || text.isEmpty()) {
+
             return;
         }
 
         try {
+
             Document doc = getDocument();
+
             String content = doc.getText(0, doc.getLength());
             if (!caseSensitive) {
+
                 content = content.toLowerCase();
                 text = text.toLowerCase();
             }
 
             int index = 0;
             while ((index = content.indexOf(text, index)) >= 0) {
+
                 int end = index + text.length();
                 highlighter.addHighlight(index, end, painter);
                 index = end;
             }
+
         } catch (BadLocationException e) {
+            
             e.printStackTrace();
         }
     }
