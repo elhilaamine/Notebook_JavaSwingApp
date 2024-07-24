@@ -1,6 +1,5 @@
 package main;
 
-
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,86 +12,22 @@ import javax.swing.undo.UndoManager;
  */
 public class EditeurDeTexte extends JFrame implements Runnable {
 
-	/**
-	 * Le panneau de zone de texte
-	 */
     private JTextPane zoneDeTexte;
-    
-    /**
-     * La fenetre pour effectuer des recherches et des remplacements
-     */
     private FenetreRechercheRemplacement fenetreRechercheRemplacement;
-    
-    /**
-     * Permet de defaire ou de refaire une action sur le panneau de texte
-     */
     private UndoManager refaireDefaire;
 
-    /**
-     * Constructeur de la classe EditeurDeTexte.
-     * Initialise la fenêtre, la zone de texte, et la barre de menu.
-     */
     public EditeurDeTexte() {
-    	
         initialiserFenetre();
         ajouterZoneDeTexte();
         creerBarreDeMenu();
-        
-        /*
-         * on cree une instance d'UndoManager 
-         */
+
         refaireDefaire = new UndoManager();
-        
-        /*
-         * j'ajoute un ecouteur à la zone de texte pour les événements d'édition
-         *  qui peuvent être annulés
-         */
         zoneDeTexte.getDocument().addUndoableEditListener(refaireDefaire);
- 
-        /*
-         * j'ajoute un ecouteur de touche à la zone de texte
-         */
-        zoneDeTexte.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-            	
-            	/*
-            	 * Lorsqu'on appuie sur ctrl + z, on defait la derniere action
-            	 */
-            	if ((e.getKeyCode() == KeyEvent.VK_Z) && e.isControlDown()) {
-                    if (refaireDefaire.canUndo()) {
-                        refaireDefaire.undo();
-                    }
-                }
-            	
-            	/*
-            	 * Lorsqu'on appuie sur ctrl + y, on refait la derniere action
-            	 * seulement si elle a été defaite auparvant
-            	 */
-            	if ((e.getKeyCode() == KeyEvent.VK_Y) && e.isControlDown()) {
-                     if (refaireDefaire.canRedo()) {
-                         refaireDefaire.redo();
-                     }
-                 }
-               
-            	/*
-            	 * Lorsqu'on appuie sur ctrl + f, ca cree et ouvre la fenetre de recherche
-            	 */
-                if ((e.getKeyCode() == KeyEvent.VK_F) && e.isControlDown()) {
-                    fenetreRechercheRemplacement = new FenetreRechercheRemplacement(EditeurDeTexte.this);
-                    fenetreRechercheRemplacement.setVisible(true);
-                }
-            }
-        });
+        configurerEcouteurs();
     }
 
-    /**
-     * Méthode principale pour exécuter l'application.
-     * Rend la fenêtre visible.
-     */
     @Override
     public void run() {
-    	
         setVisible(true);
     }
 
@@ -100,7 +35,6 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Initialise les paramètres de la fenêtre principale.
      */
     private void initialiserFenetre() {
-    	
         setTitle("Éditeur de Texte");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,7 +44,6 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Ajoute une zone de texte éditable à la fenêtre.
      */
     private void ajouterZoneDeTexte() {
-    	
         zoneDeTexte = new JTextPane();
         JScrollPane panneauDeDefilement = new JScrollPane(zoneDeTexte);
         getContentPane().add(panneauDeDefilement);
@@ -120,29 +53,21 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Crée la barre de menu et y ajoute les menus et les éléments de menu.
      */
     private void creerBarreDeMenu() {
-    	
         JMenuBar barreDeMenu = new JMenuBar();
-        
         setJMenuBar(barreDeMenu);
 
-        // Créer et ajouter le menu Fichier
         JMenu menuFichier = new JMenu("Fichier");
         barreDeMenu.add(menuFichier);
-
         ajouterElementDeMenu(menuFichier, "Nouveau", e -> nouvelleAction());
         ajouterElementDeMenu(menuFichier, "Ouvrir", e -> ouvrirAction());
-        ajouterElementDeMenu(menuFichier, "Sauvegarder", 
-        		e -> sauvegarderAction());
+        ajouterElementDeMenu(menuFichier, "Sauvegarder", e -> sauvegarderAction());
         ajouterElementDeMenu(menuFichier, "Quitter", e -> System.exit(0));
 
-        // Créer et ajouter le menu Affichage
         JMenu menuAffichage = new JMenu("Affichage");
         barreDeMenu.add(menuAffichage);
-
         ajouterElementDeMenu(menuAffichage, "Zoom +", e -> zoomAvantAction());
         ajouterElementDeMenu(menuAffichage, "Zoom -", e -> zoomArriereAction());
-        ajouterElementDeMenu(menuAffichage, "Barre d’état",
-        		e -> barreDEtatAction());
+        ajouterElementDeMenu(menuAffichage, "Barre d’état", e -> barreDEtatAction());
     }
 
     /**
@@ -152,9 +77,7 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * @param nom          Le nom de l'élément de menu.
      * @param actionListener L'action à effectuer lorsque l'élément de menu est sélectionné.
      */
-    private void ajouterElementDeMenu(JMenu menu, String nom, 
-    		ActionListener actionListener) {
-    	
+    private void ajouterElementDeMenu(JMenu menu, String nom, ActionListener actionListener) {
         JMenuItem menuItem = new JMenuItem(nom);
         menuItem.addActionListener(actionListener);
         menu.add(menuItem);
@@ -165,7 +88,6 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Efface le contenu de la zone de texte.
      */
     private void nouvelleAction() {
-    	
         zoneDeTexte.setText("");
     }
 
@@ -174,11 +96,10 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Affiche un sélecteur de fichier pour ouvrir un fichier.
      */
     private void ouvrirAction() {
-    	
-        // Code pour ouvrir un fichier (lecture et affichage dans zoneDeTexte)
         JFileChooser fileChooser = new JFileChooser();
         int option = fileChooser.showOpenDialog(this);
         if (option == JFileChooser.APPROVE_OPTION) {
+            // Code pour ouvrir un fichier (lecture et affichage dans zoneDeTexte)
         }
     }
 
@@ -187,12 +108,10 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Affiche un sélecteur de fichier pour sauvegarder un fichier.
      */
     private void sauvegarderAction() {
-    	
-        // Code pour sauvegarder un fichier (écriture du contenu de zoneDeTexte)
         JFileChooser fileChooser = new JFileChooser();
-        
         int option = fileChooser.showSaveDialog(this);
         if (option == JFileChooser.APPROVE_OPTION) {
+            // Code pour sauvegarder un fichier (écriture du contenu de zoneDeTexte)
         }
     }
 
@@ -201,9 +120,7 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Augmente la taille de la police dans la zone de texte.
      */
     private void zoomAvantAction() {
-    	
-        zoneDeTexte.setFont(zoneDeTexte.getFont()
-        		.deriveFont(zoneDeTexte.getFont().getSize() + 2f));
+        zoneDeTexte.setFont(zoneDeTexte.getFont().deriveFont(zoneDeTexte.getFont().getSize() + 2f));
     }
 
     /**
@@ -211,9 +128,7 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Réduit la taille de la police dans la zone de texte.
      */
     private void zoomArriereAction() {
-    	
-        zoneDeTexte.setFont(zoneDeTexte.getFont()
-        		.deriveFont(zoneDeTexte.getFont().getSize() - 2f));
+        zoneDeTexte.setFont(zoneDeTexte.getFont().deriveFont(zoneDeTexte.getFont().getSize() - 2f));
     }
 
     /**
@@ -221,7 +136,31 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Affiche ou masque la barre d'état.
      */
     private void barreDEtatAction() {
-        // Code pour afficher/masquer la barre d'état encr a faire
+        // Code pour afficher/masquer la barre d'état
     }
 
+    /**
+     * Configure les écouteurs de touches pour la zone de texte.
+     */
+    private void configurerEcouteurs() {
+        zoneDeTexte.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getKeyCode() == KeyEvent.VK_Z) && e.isControlDown()) {
+                    if (refaireDefaire.canUndo()) {
+                        refaireDefaire.undo();
+                    }
+                }
+                if ((e.getKeyCode() == KeyEvent.VK_Y) && e.isControlDown()) {
+                    if (refaireDefaire.canRedo()) {
+                        refaireDefaire.redo();
+                    }
+                }
+                if ((e.getKeyCode() == KeyEvent.VK_F) && e.isControlDown()) {
+                    fenetreRechercheRemplacement = new FenetreRechercheRemplacement(zoneDeTexte);
+                    fenetreRechercheRemplacement.setVisible(true);
+                }
+            }
+        });
+    }
 }
