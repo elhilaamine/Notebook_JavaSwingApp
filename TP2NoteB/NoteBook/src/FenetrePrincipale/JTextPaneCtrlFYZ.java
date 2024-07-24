@@ -1,8 +1,19 @@
-/**
- * Classe pour JTextPane avec fonctionnalités d'annulation, de rétablissement et de recherche.
- */
-public class JTextPaneCtrlFYZ extends JTextPaneCtrlYZ {
+package FenetrePrincipale;
 
+import java.awt.event.ActionEvent;
+import javax.swing.*;
+
+/**
+ * Classe étendue pour JTextPane avec fonctionnalités d'annulation, rétablissement et recherche.
+ */
+public class JTextPaneCtrlFYZ extends JTextPaneCtrlF {
+
+    /**
+     * Constructeur par défaut de la classe JTextPaneCtrlFYZ.
+     * <p>
+     * Initialise un nouvel objet UndoManager et configure les actions d'annulation, de rétablissement et de recherche.
+     * </p>
+     */
     public JTextPaneCtrlFYZ() {
         super();
         configurerRecherche();
@@ -16,7 +27,13 @@ public class JTextPaneCtrlFYZ extends JTextPaneCtrlYZ {
         getActionMap().put("find", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new FenetreRecherche(JTextPaneCtrlFYZ.this).setVisible(true);
+                String text = JOptionPane.showInputDialog(JTextPaneCtrlFYZ.this, "Entrez le texte à rechercher:");
+                if (text != null) {
+                    int caseSensitiveOption = JOptionPane.showConfirmDialog(JTextPaneCtrlFYZ.this,
+                     "La recherche doit-elle être sensible à la casse ?", "Sensibilité à la casse", JOptionPane.YES_NO_OPTION);
+                    boolean caseSensitive = (caseSensitiveOption == JOptionPane.YES_OPTION);
+                    rechercher(text, caseSensitive);
+                }
             }
         });
     }
