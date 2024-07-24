@@ -6,8 +6,10 @@ import javax.swing.undo.UndoManager;
 
 /**
  * Classe de base pour JTextPane avec fonctionnalités d'annulation et de rétablissement.
+ * <p>
  * Cette classe étend JTextPane et ajoute la gestion des actions d'annulation et de rétablissement
  * via les raccourcis clavier Ctrl+Z (annulation) et Ctrl+Y (rétablissement).
+ * </p>
  */
 public class JTextPaneCtrlYZ extends JTextPane {
 
@@ -15,8 +17,10 @@ public class JTextPaneCtrlYZ extends JTextPane {
     protected UndoManager undoManager;
 
     /**
-     * Constructeur par défaut de la classe JTextPaneCtrlYZ
+     * Constructeur par défaut de la classe JTextPaneCtrlYZ.
+     * <p>
      * Initialise un nouvel objet UndoManager et configure les actions d'annulation et de rétablissement.
+     * </p>
      */
     public JTextPaneCtrlYZ() {
         undoManager = new UndoManager();
@@ -26,27 +30,38 @@ public class JTextPaneCtrlYZ extends JTextPane {
 
     /**
      * Configure les actions d'annulation et de rétablissement.
+     * <p>
      * Associe les raccourcis clavier Ctrl+Z à l'action d'annulation et Ctrl+Y à l'action de rétablissement.
      * Les actions sont ajoutées à la map des actions de JTextPane.
-     * 
+     * </p>
      */
     private void configurerAnnulationRetablissement() {
+
         getInputMap().put(KeyStroke.getKeyStroke("control Z"), "undo");
+
         getActionMap().put("undo", new AbstractAction() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (undoManager.canUndo()) {
+
                     undoManager.undo();
                 }
             }
         });
 
         getInputMap().put(KeyStroke.getKeyStroke("control Y"), "redo");
+
         getActionMap().put("redo", new AbstractAction() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (undoManager.canRedo()) {
+
                     undoManager.redo();
+
                 }
             }
         });
