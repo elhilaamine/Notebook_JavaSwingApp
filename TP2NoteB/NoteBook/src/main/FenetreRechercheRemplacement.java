@@ -1,16 +1,14 @@
 package main;
 
-import java.awt.Frame;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+
 
 public class FenetreRechercheRemplacement extends JDialog{
 	
@@ -32,13 +30,13 @@ public class FenetreRechercheRemplacement extends JDialog{
 	
 	
 
-	public FenetreRechercheRemplacement(JFrame fenetrePrincipale) {
+	public FenetreRechercheRemplacement(JTextPane zoneDeTexte) {
 		
-		super(fenetrePrincipale,"Recherche et Remplacement",true);
+		super();
 		
 		setSize(400,200);
 		
-		setLocationRelativeTo(fenetrePrincipale);
+		setLocationRelativeTo(zoneDeTexte);
 		
 	
 		creerBoutons();
