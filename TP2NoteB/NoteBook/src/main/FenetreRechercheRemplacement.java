@@ -1,5 +1,6 @@
 package main;
 
+import FenetrePrincipale.JTextPaneCtrlF;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,98 +10,170 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import FenetrePrincipale.JTextPaneCtrlF;
 
+/**
+ * FenetreRechercheRemplacement est une boîte de dialogue pour rechercher et remplacer du texte
+ * dans un JTextPaneCtrlF.
+ */
 public class FenetreRechercheRemplacement extends JDialog {
 
+    // Déclaration des boutons
     private JButton boutonSuivant;
     private JButton boutonPrecedent;
     private JButton boutonRemplacer;
     private JButton boutonRemplacerTout;
+    
+    // Champs de texte pour la recherche et le remplacement
     private JTextField champRecherche;
     private JTextField champRemplacement;
+    
+    // Liste déroulante pour les recherches précédentes
     private JComboBox<String> recherchePrecedente;
+    
+    // Panneau principal de la boîte de dialogue
     private JPanel panneauRechercheRemplacement;
 
+    /**
+     * Constructeur de la classe FenetreRechercheRemplacement.
+     *
+     * @param zoneDeTexte la zone de texte sur laquelle effectuer les recherches et remplacements
+     */
     public FenetreRechercheRemplacement(JTextPaneCtrlF zoneDeTexte) {
+        super(); // Appelle le constructeur de JDialog
+        setSize(400, 200); // Définit la taille de la boîte de dialogue
+        setLocationRelativeTo(zoneDeTexte); // Positionne la boîte de dialogue au centre de zoneDeTexte
 
-        super();
-        setSize(400, 200);
-        setLocationRelativeTo(zoneDeTexte);
+        creerBoutons(zoneDeTexte); // Crée et configure les boutons
+        creerZoneTexte(); // Crée et configure les champs de texte
+        creerListeDeroulante(); // Crée et configure la liste déroulante
+        creerPanneau(); // Crée et configure le panneau principal
+        ajoutComposantsPanneau(); // Ajoute les composants au panneau
 
-        creerBoutons(zoneDeTexte);
-        
-        creerZoneTexte();
-        creerListeDeroulante();
-        creerPanneau();
-        ajoutComposantsPanneau();
-
-        add(panneauRechercheRemplacement);
+        add(panneauRechercheRemplacement); // Ajoute le panneau à la boîte de dialogue
     }
 
+    /**
+     * Ajoute les composants au panneau principal.
+     */
     private void ajoutComposantsPanneau() {
 
-        panneauRechercheRemplacement.add(new JLabel("Recherche :"));
-        panneauRechercheRemplacement.add(champRecherche);
-        panneauRechercheRemplacement.add(new JLabel("Remplacement :"));
+        // Ajoute un label pour la recherche
+        panneauRechercheRemplacement.add(new JLabel("Recherche :")); 
+
+        // Ajoute le champ de texte pour la recherche
+        panneauRechercheRemplacement.add(champRecherche); 
+
+        // Ajoute un label pour le remplacement
+        panneauRechercheRemplacement.add(new JLabel("Remplacement :")); 
+
+         // Ajoute le champ de texte pour le remplacement
         panneauRechercheRemplacement.add(champRemplacement);
-        panneauRechercheRemplacement.add(boutonSuivant);
-        panneauRechercheRemplacement.add(boutonPrecedent);
-        panneauRechercheRemplacement.add(boutonRemplacer);
-        panneauRechercheRemplacement.add(boutonRemplacerTout);
-        panneauRechercheRemplacement.add(new JLabel("Recherches précédentes :"));
-        panneauRechercheRemplacement.add(recherchePrecedente);
+
+        // Ajoute le bouton "Suivant"
+        panneauRechercheRemplacement.add(boutonSuivant); 
+
+        // Ajoute le bouton "Précédent"
+        panneauRechercheRemplacement.add(boutonPrecedent); 
+
+        // Ajoute le bouton "Remplacer"
+        panneauRechercheRemplacement.add(boutonRemplacer); 
+
+        // Ajoute le bouton "Remplacer tout"
+        panneauRechercheRemplacement.add(boutonRemplacerTout); 
+
+        // Ajoute un label pour les recherches précédentes
+        panneauRechercheRemplacement.add(new JLabel("Recherches précédentes :")); 
+
+        // Ajoute la liste déroulante pour les recherches précédentes
+        panneauRechercheRemplacement.add(recherchePrecedente); 
     }
 
+    /**
+     * Crée et configure le panneau principal.
+     */
     private void creerPanneau() {
 
-        panneauRechercheRemplacement = new JPanel(new GridLayout(5, 2));
+        // Crée un panneau avec une grille 5x2
+        panneauRechercheRemplacement = new JPanel(new GridLayout(5, 2)); 
     }
 
+    /**
+     * Crée et configure la liste déroulante pour les recherches précédentes.
+     */
     private void creerListeDeroulante() {
 
-        recherchePrecedente = new JComboBox<>();
+        // Initialise la liste déroulante pour les recherches précédentes
+        recherchePrecedente = new JComboBox<>(); 
     }
 
+    /**
+     * Crée et configure les champs de texte pour la recherche et le remplacement.
+     */
     private void creerZoneTexte() {
 
-        champRecherche = new JTextField(20);
-        champRemplacement = new JTextField(20);
+        // Initialise le champ de texte pour la recherche avec une largeur de 20 colonnes
+        champRecherche = new JTextField(20); 
+
+
+        // Initialise le champ de texte pour le remplacement avec une largeur de 20 colonnes
+        champRemplacement = new JTextField(20); 
     }
 
+    /**
+     * Crée et configure les boutons.
+     *
+     * @param zoneDeTexte la zone de texte sur laquelle effectuer 
+     * les recherches et remplacements
+     */
     private void creerBoutons(JTextPaneCtrlF zoneDeTexte) {
 
-        boutonSuivant = new JButton("Suivant");
+        // Initialise le bouton "Suivant"
+        boutonSuivant = new JButton("Suivant"); 
         boutonSuivant.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Action lors du clic sur le bouton "Suivant"
+                zoneDeTexte.rechercherSuivant(champRecherche.getText(), true); 
+            }
+        });
+
+        // Initialise le bouton "Précédent"
+        boutonPrecedent = new JButton("Précédent"); 
+        boutonPrecedent.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                zoneDeTexte.rechercherSuivant(champRecherche.getText(), true);
+                // Action lors du clic sur le bouton "Précédent"
+                zoneDeTexte.rechercher(champRecherche.getText(), true); 
             }
         });
 
-        boutonPrecedent = new JButton("Précédent");
-        // Ajoutez l'action pour le bouton précédent ici
 
-        boutonRemplacer = new JButton("Remplacer");
+        // Initialise le bouton "Remplacer"
+        boutonRemplacer = new JButton("Remplacer"); 
         boutonRemplacer.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                zoneDeTexte.remplacer(champRecherche.getText(), champRemplacement.getText(), true);
+                // Action lors du clic sur le bouton "Remplacer"
+                zoneDeTexte.remplacer(champRecherche.getText(), 
+                champRemplacement.getText(), true); 
             }
         });
 
-        boutonRemplacerTout = new JButton("Remplacer tout");
+        // Initialise le bouton "Remplacer tout"
+        boutonRemplacerTout = new JButton("Remplacer tout"); 
         boutonRemplacerTout.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                zoneDeTexte.remplacerTout(champRecherche.getText(), champRemplacement.getText(), true);
+                // Action lors du clic sur le bouton "Remplacer tout"
+                zoneDeTexte.remplacerTout(champRecherche.getText(), 
+                champRemplacement.getText(), true); 
             }
         });
     }
