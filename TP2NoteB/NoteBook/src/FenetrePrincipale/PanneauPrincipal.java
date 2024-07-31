@@ -14,7 +14,6 @@ public class PanneauPrincipal extends JPanel {
     public PanneauPrincipal() {
 
         setLayout(new BorderLayout());
-        
         ajouterZoneDeTexte();
         ajouterBarreDEtat();
     }
