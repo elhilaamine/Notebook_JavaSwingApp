@@ -69,10 +69,13 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
      * @param caseSensitive Si true, la recherche est sensible à la casse.
      */
     public void rechercherSuivant(String text, boolean caseSensitive) {
+
         try {
+
             Document doc = getDocument();
             String content = doc.getText(0, doc.getLength());
             if (!caseSensitive) {
+
                 content = content.toLowerCase();
                 text = text.toLowerCase();
             }
@@ -80,6 +83,7 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
             int start = (lastIndex >= 0) ? lastIndex + 1 : 0;
             int index = content.indexOf(text, start);
             if (index >= 0) {
+
                 int end = index + text.length();
                 highlighter.removeAllHighlights();
                 highlighter.addHighlight(index, end, painter);
@@ -87,6 +91,7 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
                 setCaretPosition(end);
             }
         } catch (BadLocationException e) {
+
             e.printStackTrace();
         }
     }
@@ -98,23 +103,29 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
      * @param caseSensitive Si true, la recherche est sensible à la casse.
      */
     public void remplacer(String searchText, String replaceText, boolean caseSensitive) {
+
         try {
+
             Document doc = getDocument();
             String content = doc.getText(0, doc.getLength());
             if (!caseSensitive) {
+
                 content = content.toLowerCase();
                 searchText = searchText.toLowerCase();
             }
 
             int start = (lastIndex >= 0) ? lastIndex : 0;
             int index = content.indexOf(searchText, start);
+
             if (index >= 0) {
+
                 doc.remove(index, searchText.length());
                 doc.insertString(index, replaceText, null);
                 lastIndex = index + replaceText.length();
                 rechercher(searchText, caseSensitive); // Mettre à jour les surlignages
             }
         } catch (BadLocationException e) {
+            
             e.printStackTrace();
         }
     }
