@@ -24,19 +24,23 @@ public class FenetreRechercheRemplacement extends JDialog {
     private JPanel panneauRechercheRemplacement;
 
     public FenetreRechercheRemplacement(JTextPaneCtrlF zoneDeTexte) {
+
         super();
         setSize(400, 200);
         setLocationRelativeTo(zoneDeTexte);
 
         creerBoutons(zoneDeTexte);
+        
         creerZoneTexte();
         creerListeDeroulante();
         creerPanneau();
         ajoutComposantsPanneau();
+
         add(panneauRechercheRemplacement);
     }
 
     private void ajoutComposantsPanneau() {
+
         panneauRechercheRemplacement.add(new JLabel("Recherche :"));
         panneauRechercheRemplacement.add(champRecherche);
         panneauRechercheRemplacement.add(new JLabel("Remplacement :"));
@@ -50,23 +54,29 @@ public class FenetreRechercheRemplacement extends JDialog {
     }
 
     private void creerPanneau() {
+
         panneauRechercheRemplacement = new JPanel(new GridLayout(5, 2));
     }
 
     private void creerListeDeroulante() {
+
         recherchePrecedente = new JComboBox<>();
     }
 
     private void creerZoneTexte() {
+
         champRecherche = new JTextField(20);
         champRemplacement = new JTextField(20);
     }
 
     private void creerBoutons(JTextPaneCtrlF zoneDeTexte) {
+
         boutonSuivant = new JButton("Suivant");
         boutonSuivant.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 zoneDeTexte.rechercherSuivant(champRecherche.getText(), true);
             }
         });
@@ -76,16 +86,20 @@ public class FenetreRechercheRemplacement extends JDialog {
 
         boutonRemplacer = new JButton("Remplacer");
         boutonRemplacer.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 zoneDeTexte.remplacer(champRecherche.getText(), champRemplacement.getText(), true);
             }
         });
 
         boutonRemplacerTout = new JButton("Remplacer tout");
         boutonRemplacerTout.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 zoneDeTexte.remplacerTout(champRecherche.getText(), champRemplacement.getText(), true);
             }
         });
