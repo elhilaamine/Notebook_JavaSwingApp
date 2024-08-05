@@ -8,7 +8,10 @@ import javax.swing.*;
  */
 public class PanneauPrincipal extends JPanel {
 
+    // La zone de texte principale.
     private JTextPane zoneDeTexte;
+
+    // La barre d'état pour afficher les messages d'état.
     private JPanel barreDEtat;
 
     /**
@@ -17,8 +20,13 @@ public class PanneauPrincipal extends JPanel {
      */
     public PanneauPrincipal() {
         
+        // Définit la disposition du panneau principal.
         setLayout(new BorderLayout());
+        
+        // Ajoute la zone de texte au panneau principal.
         ajouterZoneDeTexte();
+        
+        // Ajoute la barre d'état au panneau principal.
         ajouterBarreDEtat();
     }
 
@@ -28,9 +36,13 @@ public class PanneauPrincipal extends JPanel {
      */
     private void ajouterZoneDeTexte() {
 
+        // Initialise la zone de texte.
         zoneDeTexte = new JTextPane();
+        
+        // Enveloppe la zone de texte dans un panneau de défilement.
         JScrollPane panneauDeDefilement = new JScrollPane(zoneDeTexte);
 
+        // Ajoute le panneau de défilement au centre du panneau principal.
         add(panneauDeDefilement, BorderLayout.CENTER);
     }
 
@@ -40,10 +52,16 @@ public class PanneauPrincipal extends JPanel {
      */
     private void ajouterBarreDEtat() {
 
+        // Initialise la barre d'état avec une disposition BorderLayout.
         barreDEtat = new JPanel(new BorderLayout());
+        
+        // Crée un label d'état avec le message "Prêt".
         JLabel labelEtat = new JLabel("Prêt");
 
+        // Ajoute le label d'état à la barre d'état, aligné à gauche.
         barreDEtat.add(labelEtat, BorderLayout.WEST);
+        
+        // Ajoute la barre d'état au bas du panneau principal.
         add(barreDEtat, BorderLayout.SOUTH);
     }
 
@@ -62,7 +80,6 @@ public class PanneauPrincipal extends JPanel {
      * @return la barre d'état (JPanel)
      */
     public JPanel getBarreDEtat() {
-
         return barreDEtat;
     }
 
@@ -73,6 +90,7 @@ public class PanneauPrincipal extends JPanel {
      */
     public void mettreAJourBarreDEtat(String message) {
 
+        // Met à jour le texte du label d'état dans la barre d'état.
         ((JLabel) barreDEtat.getComponent(0)).setText(message);
     }
 }
