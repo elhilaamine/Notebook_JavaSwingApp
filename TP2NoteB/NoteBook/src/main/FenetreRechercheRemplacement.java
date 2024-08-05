@@ -39,15 +39,30 @@ public class FenetreRechercheRemplacement extends JDialog {
      * @param zoneDeTexte la zone de texte sur laquelle effectuer les recherches et remplacements
      */
     public FenetreRechercheRemplacement(JTextPaneCtrlF zoneDeTexte) {
-        super(); // Appelle le constructeur de JDialog
-        setSize(400, 200); // Définit la taille de la boîte de dialogue
-        setLocationRelativeTo(zoneDeTexte); // Positionne la boîte de dialogue au centre de zoneDeTexte
 
-        creerBoutons(zoneDeTexte); // Crée et configure les boutons
-        creerZoneTexte(); // Crée et configure les champs de texte
-        creerListeDeroulante(); // Crée et configure la liste déroulante
-        creerPanneau(); // Crée et configure le panneau principal
-        ajoutComposantsPanneau(); // Ajoute les composants au panneau
+        // Appelle le constructeur de JDialog
+        super(); 
+
+        // Définit la taille de la boîte de dialogue
+        setSize(400, 200); 
+
+        // Positionne la boîte de dialogue au centre de zoneDeTexte
+        setLocationRelativeTo(zoneDeTexte); 
+
+        // Crée et configure les boutons
+        creerBoutons(zoneDeTexte); 
+
+        // Crée et configure les champs de texte
+        creerZoneTexte(); 
+
+        // Crée et configure la liste déroulante
+        creerListeDeroulante(); 
+
+        // Crée et configure le panneau principal
+        creerPanneau(); 
+
+        // Ajoute les composants au panneau
+        ajoutComposantsPanneau();
 
         add(panneauRechercheRemplacement); // Ajoute le panneau à la boîte de dialogue
     }
@@ -82,7 +97,8 @@ public class FenetreRechercheRemplacement extends JDialog {
         panneauRechercheRemplacement.add(boutonRemplacerTout); 
 
         // Ajoute un label pour les recherches précédentes
-        panneauRechercheRemplacement.add(new JLabel("Recherches précédentes :")); 
+        panneauRechercheRemplacement.add(new
+         JLabel("Recherches précédentes :")); 
 
         // Ajoute la liste déroulante pour les recherches précédentes
         panneauRechercheRemplacement.add(recherchePrecedente); 
@@ -98,7 +114,8 @@ public class FenetreRechercheRemplacement extends JDialog {
     }
 
     /**
-     * Crée et configure la liste déroulante pour les recherches précédentes.
+     * Crée et configure la liste déroulante pour 
+     * les recherches précédentes.
      */
     private void creerListeDeroulante() {
 
@@ -107,15 +124,18 @@ public class FenetreRechercheRemplacement extends JDialog {
     }
 
     /**
-     * Crée et configure les champs de texte pour la recherche et le remplacement.
+     * Crée et configure les champs de texte pour 
+     * la recherche et le remplacement.
      */
     private void creerZoneTexte() {
 
-        // Initialise le champ de texte pour la recherche avec une largeur de 20 colonnes
+        // Initialise le champ de texte pour la recherche 
+        //avec une largeur de 20 colonnes
         champRecherche = new JTextField(20); 
 
 
-        // Initialise le champ de texte pour le remplacement avec une largeur de 20 colonnes
+        // Initialise le champ de texte pour le remplacement
+        // avec une largeur de 20 colonnes
         champRemplacement = new JTextField(20); 
     }
 
