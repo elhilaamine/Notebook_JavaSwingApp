@@ -111,17 +111,30 @@ public class EditeurDeTexte extends JFrame implements Runnable {
         // Crée le menu "Fichier" et y ajoute des éléments de menu
         JMenu menuFichier = new JMenu("Fichier");
         barreDeMenu.add(menuFichier);
-        ajouterElementDeMenu(menuFichier, "Nouveau", e -> nouvelleAction());
-        ajouterElementDeMenu(menuFichier, "Ouvrir", e -> ouvrirAction());
-        ajouterElementDeMenu(menuFichier, "Sauvegarder", e -> sauvegarderAction());
-        ajouterElementDeMenu(menuFichier, "Quitter", e -> System.exit(0));
+        ajouterElementDeMenu(menuFichier, "Nouveau", 
+        e -> nouvelleAction());
+
+        ajouterElementDeMenu(menuFichier, "Ouvrir", 
+        e -> ouvrirAction());
+
+        ajouterElementDeMenu(menuFichier, "Sauvegarder",
+         e -> sauvegarderAction());
+
+        ajouterElementDeMenu(menuFichier, "Quitter",
+         e -> System.exit(0));
 
         // Crée le menu "Affichage" et y ajoute des éléments de menu
         JMenu menuAffichage = new JMenu("Affichage");
         barreDeMenu.add(menuAffichage);
-        ajouterElementDeMenu(menuAffichage, "Zoom +", e -> zoomAvantAction());
-        ajouterElementDeMenu(menuAffichage, "Zoom -", e -> zoomArriereAction());
-        ajouterElementDeMenu(menuAffichage, "Barre d’état", e -> barreDEtatAction());
+
+        ajouterElementDeMenu(menuAffichage, "Zoom +",
+         e -> zoomAvantAction());
+
+        ajouterElementDeMenu(menuAffichage, "Zoom -", 
+        e -> zoomArriereAction());
+
+        ajouterElementDeMenu(menuAffichage, "Barre d’état", 
+        e -> barreDEtatAction());
     }
 
     /**
@@ -176,7 +189,8 @@ public class EditeurDeTexte extends JFrame implements Runnable {
             } catch (IOException e) {
 
                 // Affiche un message d'erreur en cas d'exception
-                JOptionPane.showMessageDialog(this, "Erreur lors de l'ouverture du fichier"
+                JOptionPane.showMessageDialog(this,
+                "Erreur lors de l'ouverture du fichier"
                 , "Erreur", JOptionPane.ERROR_MESSAGE); 
             }
         }
@@ -213,7 +227,8 @@ public class EditeurDeTexte extends JFrame implements Runnable {
             } catch (IOException e) {
 
                 // Affiche un message d'erreur en cas d'exception
-                JOptionPane.showMessageDialog(this, "Erreur lors de la sauvegarde du fichier"
+                JOptionPane.showMessageDialog(this, 
+                "Erreur lors de la sauvegarde du fichier"
                 , "Erreur", JOptionPane.ERROR_MESSAGE); 
             }
         }
@@ -255,12 +270,18 @@ public class EditeurDeTexte extends JFrame implements Runnable {
      * Ajoute la barre d'état à la fenêtre et configure son écouteur de caret.
      */
     private void ajouterBarreDEtat() {
-        barreDEtat = new JLabel("Ligne: 1, Colonne: 1"); // Initialise la barre d'état avec le texte par défaut
-        getContentPane().add(barreDEtat, BorderLayout.SOUTH); // Ajoute la barre d'état au bas de la fenêtre
+
+        // Initialise la barre d'état avec le texte par défaut
+        barreDEtat = new JLabel("Ligne: 1, Colonne: 1"); 
+
+        // Ajoute la barre d'état au bas de la fenêtre
+        getContentPane().add(barreDEtat, BorderLayout.SOUTH); 
 
         zoneDeTexte.addCaretListener(new CaretListener() {
+
             @Override
             public void caretUpdate(CaretEvent e) {
+
                 try {
 
                     // Récupère la position du caret
@@ -313,7 +334,9 @@ public class EditeurDeTexte extends JFrame implements Runnable {
                 if ((e.getKeyCode() == KeyEvent.VK_F) && e.isControlDown()) {
 
                     // Crée et affiche la fenêtre de recherche/remplacement
-                    fenetreRechercheRemplacement = new FenetreRechercheRemplacement(zoneDeTexte); 
+                    fenetreRechercheRemplacement = 
+                    new FenetreRechercheRemplacement(zoneDeTexte); 
+                    
                     fenetreRechercheRemplacement.setVisible(true);
                 }
             }
