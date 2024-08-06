@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -22,6 +23,7 @@ public class FenetreRechercheRemplacement extends JDialog {
     private JButton boutonPrecedent;
     private JButton boutonRemplacer;
     private JButton boutonRemplacerTout;
+    private JButton boutonFermer;
     
     // Champs de texte pour la recherche et le remplacement
     private JTextField champRecherche;
@@ -29,6 +31,9 @@ public class FenetreRechercheRemplacement extends JDialog {
     
     // Liste déroulante pour les recherches précédentes
     private JComboBox<String> recherchePrecedente;
+    
+    // Case à cocher pour la sensibilité à la casse
+    private JCheckBox caseSensibilite;
     
     // Panneau principal de la boîte de dialogue
     private JPanel panneauRechercheRemplacement;
@@ -39,12 +44,12 @@ public class FenetreRechercheRemplacement extends JDialog {
      * @param zoneDeTexte la zone de texte sur laquelle effectuer les recherches et remplacements
      */
     public FenetreRechercheRemplacement(JTextPaneCtrlF zoneDeTexte) {
-
+        
         // Appelle le constructeur de JDialog
         super(); 
 
         // Définit la taille de la boîte de dialogue
-        setSize(400, 200); 
+        setSize(400, 250); // Augmenté pour ajouter un bouton Fermer
 
         // Positionne la boîte de dialogue au centre de zoneDeTexte
         setLocationRelativeTo(zoneDeTexte); 
@@ -58,6 +63,9 @@ public class FenetreRechercheRemplacement extends JDialog {
         // Crée et configure la liste déroulante
         creerListeDeroulante(); 
 
+        // Crée et configure la case à cocher
+        caseSensibilite = new JCheckBox("Sensible à la casse");
+        
         // Crée et configure le panneau principal
         creerPanneau(); 
 
@@ -72,45 +80,26 @@ public class FenetreRechercheRemplacement extends JDialog {
      */
     private void ajoutComposantsPanneau() {
 
-        // Ajoute un label pour la recherche
         panneauRechercheRemplacement.add(new JLabel("Recherche :")); 
-
-        // Ajoute le champ de texte pour la recherche
         panneauRechercheRemplacement.add(champRecherche); 
-
-        // Ajoute un label pour le remplacement
         panneauRechercheRemplacement.add(new JLabel("Remplacement :")); 
-
-         // Ajoute le champ de texte pour le remplacement
         panneauRechercheRemplacement.add(champRemplacement);
-
-        // Ajoute le bouton "Suivant"
         panneauRechercheRemplacement.add(boutonSuivant); 
-
-        // Ajoute le bouton "Précédent"
         panneauRechercheRemplacement.add(boutonPrecedent); 
-
-        // Ajoute le bouton "Remplacer"
         panneauRechercheRemplacement.add(boutonRemplacer); 
-
-        // Ajoute le bouton "Remplacer tout"
         panneauRechercheRemplacement.add(boutonRemplacerTout); 
-
-        // Ajoute un label pour les recherches précédentes
-        panneauRechercheRemplacement.add(new
-         JLabel("Recherches précédentes :")); 
-
-        // Ajoute la liste déroulante pour les recherches précédentes
+        panneauRechercheRemplacement.add(new JLabel("Recherches précédentes :")); 
         panneauRechercheRemplacement.add(recherchePrecedente); 
+        panneauRechercheRemplacement.add(caseSensibilite);
     }
 
     /**
      * Crée et configure le panneau principal.
      */
     private void creerPanneau() {
-
-        // Crée un panneau avec une grille 5x2
-        panneauRechercheRemplacement = new JPanel(new GridLayout(5, 2)); 
+        // Crée un panneau avec une grille 5x2 
+        //(ajout d'une ligne pour le bouton Fermer)
+        panneauRechercheRemplacement = new JPanel(new GridLayout(7, 2)); 
     }
 
     /**
@@ -118,8 +107,6 @@ public class FenetreRechercheRemplacement extends JDialog {
      * les recherches précédentes.
      */
     private void creerListeDeroulante() {
-
-        // Initialise la liste déroulante pour les recherches précédentes
         recherchePrecedente = new JComboBox<>(); 
     }
 
@@ -128,14 +115,7 @@ public class FenetreRechercheRemplacement extends JDialog {
      * la recherche et le remplacement.
      */
     private void creerZoneTexte() {
-
-        // Initialise le champ de texte pour la recherche 
-        //avec une largeur de 20 colonnes
         champRecherche = new JTextField(20); 
-
-
-        // Initialise le champ de texte pour le remplacement
-        // avec une largeur de 20 colonnes
         champRemplacement = new JTextField(20); 
     }
 
@@ -147,54 +127,46 @@ public class FenetreRechercheRemplacement extends JDialog {
      */
     private void creerBoutons(JTextPaneCtrlF zoneDeTexte) {
 
-        // Initialise le bouton "Suivant"
         boutonSuivant = new JButton("Suivant"); 
         boutonSuivant.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Action lors du clic sur le bouton "Suivant"
-                zoneDeTexte.rechercherSuivant(champRecherche.getText(), true); 
+                zoneDeTexte.rechercherSuivant(champRecherche.getText(), 
+                caseSensibilite.isSelected()); 
             }
         });
 
-        // Initialise le bouton "Précédent"
         boutonPrecedent = new JButton("Précédent"); 
         boutonPrecedent.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Action lors du clic sur le bouton "Précédent"
-                zoneDeTexte.rechercher(champRecherche.getText(), true); 
+                
+                zoneDeTexte.rechercher(champRecherche.getText(), 
+                caseSensibilite.isSelected()); 
             }
         });
 
-
-        // Initialise le bouton "Remplacer"
         boutonRemplacer = new JButton("Remplacer"); 
         boutonRemplacer.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Action lors du clic sur le bouton "Remplacer"
-                zoneDeTexte.remplacer(champRecherche.getText(), 
-                champRemplacement.getText(), true); 
+                zoneDeTexte.remplacer(champRecherche.getText(),
+                 champRemplacement.getText(), caseSensibilite.isSelected()); 
             }
         });
 
-        // Initialise le bouton "Remplacer tout"
         boutonRemplacerTout = new JButton("Remplacer tout"); 
         boutonRemplacerTout.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Action lors du clic sur le bouton "Remplacer tout"
-                zoneDeTexte.remplacerTout(champRecherche.getText(), 
-                champRemplacement.getText(), true); 
+                zoneDeTexte.remplacerTout(champRecherche.getText(),
+                 champRemplacement.getText(), caseSensibilite.isSelected()); 
             }
         });
-    }
+
+     }
 }
