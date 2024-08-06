@@ -13,7 +13,7 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
 
     /** Highlighter pour marquer les résultats de recherche. */
     private Highlighter highlighter;
-    
+
     /** Painter pour définir la couleur de surbrillance. */
     private Highlighter.HighlightPainter painter;
 
@@ -22,24 +22,26 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
 
     /**
      * Constructeur par défaut de la classe JTextPaneCtrlF
-     * Initialise le highlighter pour marquer les résultats de recherche
+     * Initialise le highlighter pour marquer les résultats de recherche.
      */
     public JTextPaneCtrlF() {
+
         // Appelle le constructeur de la classe parent.
         super();
-        
+
         // Initialise le Highlighter et le Painter.
         highlighter = new DefaultHighlighter();
+
         painter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
-        
+
         // Définit le Highlighter pour le JTextPane.
         setHighlighter(highlighter);
     }
 
     /**
      * Recherche un texte dans le document avec une option
-     *  de sensibilité à la casse. Cette méthode recherche
-     *  toutes les occurrences du texte donné dans le document
+     * de sensibilité à la casse. Cette méthode recherche
+     * toutes les occurrences du texte donné dans le document
      * et les met en surbrillance.
      * 
      * @param text Le texte à rechercher.
@@ -52,30 +54,40 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
 
         // Si le texte est null ou vide, retourne immédiatement.
         if (text == null || text.isEmpty()) {
+
             return;
         }
 
         try {
+
             // Récupère le document et son contenu.
             Document doc = getDocument();
+
             String content = doc.getText(0, doc.getLength());
 
-            // Si la recherche n'est pas sensible à la casse, 
-            //transforme le contenu et le texte en minuscules.
+            // Si la recherche n'est pas sensible à la casse,
+            // transforme le contenu et le texte en minuscules.
             if (!caseSensitive) {
+
                 content = content.toLowerCase();
+
                 text = text.toLowerCase();
             }
 
             // Recherche les occurrences du texte et les surligne.
             int index = 0;
+
             while ((index = content.indexOf(text, index)) >= 0) {
+
                 int end = index + text.length();
+
                 highlighter.addHighlight(index, end, painter);
+
                 index = end;
             }
 
         } catch (BadLocationException e) {
+
             e.printStackTrace();
         }
     }
@@ -88,32 +100,43 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
     public void rechercherSuivant(String text, boolean caseSensitive) {
 
         try {
+
             // Récupère le document et son contenu.
             Document doc = getDocument();
+
             String content = doc.getText(0, doc.getLength());
 
             // Si la recherche n'est pas sensible à la casse,
             // transforme le contenu et le texte en minuscules.
             if (!caseSensitive) {
+
                 content = content.toLowerCase();
+
                 text = text.toLowerCase();
             }
 
             // Détermine l'index de départ pour la recherche.
             int start = (lastIndex >= 0) ? lastIndex + 1 : 0;
+
             int index = content.indexOf(text, start);
 
-            // Si une occurrence est trouvée, la surligne 
-            //et met à jour la position du caret.
+            // Si une occurrence est trouvée, la surligne
+            // et met à jour la position du caret.
             if (index >= 0) {
+
                 int end = index + text.length();
+
                 highlighter.removeAllHighlights();
+
                 highlighter.addHighlight(index, end, painter);
+
                 lastIndex = index;
+
                 setCaretPosition(end);
             }
 
         } catch (BadLocationException e) {
+
             e.printStackTrace();
         }
     }
@@ -124,82 +147,120 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
      * @param replaceText Le texte de remplacement.
      * @param caseSensitive Si true, la recherche est sensible à la casse.
      */
-    public void remplacer(String searchText, String replaceText, 
-                                        boolean caseSensitive) {
+    public void remplacer(String searchText, String replaceText, boolean caseSensitive) {
+
+        String texteRecherche = searchText;
+
+        String texteRemplacement = replaceText;
+
+        // Si le texte à rechercher est vide, retourne immédiatement.
+        if (texteRecherche.isEmpty()) {
+
+            return;
+        }
+
+        Document doc = getDocument();
+
+        String texteComplet;
 
         try {
-            // Récupère le document et son contenu.
-            Document doc = getDocument();
-            String content = doc.getText(0, doc.getLength());
 
-            // Si la recherche n'est pas sensible à la casse, 
-            //transforme le contenu et le texte en minuscules.
-            if (!caseSensitive) {
-                content = content.toLowerCase();
-                searchText = searchText.toLowerCase();
-            }
-
-            // Détermine l'index de départ pour la recherche.
-            int start = (lastIndex >= 0) ? lastIndex : 0;
-            int index = content.indexOf(searchText, start);
-
-            // Si une occurrence est trouvée, remplace le texte
-            // et met à jour les surlignages.
-            if (index >= 0) {
-
-                doc.remove(index, searchText.length());
-                doc.insertString(index, replaceText, null);
-                lastIndex = index + replaceText.length();
-
-                // Mettre à jour les surlignages
-                rechercher(searchText, caseSensitive); 
-            }
+            texteComplet = doc.getText(0, doc.getLength());
 
         } catch (BadLocationException e) {
 
             e.printStackTrace();
+
+            return;
+        }
+
+        // Si la recherche n'est pas sensible à la casse,
+        // transforme le texte à rechercher et le texte complet en minuscules.
+        if (!caseSensitive) {
+
+            texteRecherche = texteRecherche.toLowerCase();
+
+            texteComplet = texteComplet.toLowerCase();
+        }
+
+        // Recherche la première occurrence du texte à rechercher.
+        int index = texteComplet.indexOf(texteRecherche);
+
+        if (index >= 0) {
+
+            getCaret().setDot(index);
+
+            getCaret().moveDot(index + texteRecherche.length());
+
+            replaceSelection(texteRemplacement);
         }
     }
 
     /**
-     * Remplace toutes les occurrences d'un texte par un autre texte.
+     * Remplace toutes les occurrences du texte de recherche
+     * par le texte de remplacement dans le document.
      * @param searchText Le texte à rechercher.
      * @param replaceText Le texte de remplacement.
      * @param caseSensitive Si true, la recherche est sensible à la casse.
      */
-    public void remplacerTout(String searchText, String replaceText,
-                                                 boolean caseSensitive) {
+    public void remplacerTout(String searchText, String replaceText, boolean caseSensitive) {
+
+        String texteRecherche = searchText;
+
+        String texteRemplacement = replaceText;
+
+        // Si le texte à rechercher est vide, retourne immédiatement.
+        if (texteRecherche.isEmpty()) {
+
+            return;
+        }
+
+        Document doc = getDocument();
+
+        String texteComplet;
 
         try {
-            // Récupère le document et son contenu.
-            Document doc = getDocument();
-            String content = doc.getText(0, doc.getLength());
 
-            // Si la recherche n'est pas sensible à la casse, 
-            //transforme le contenu et le texte en minuscules.
-            if (!caseSensitive) {
-
-                content = content.toLowerCase();
-                searchText = searchText.toLowerCase();
-            }
-
-            // Recherche et remplace toutes les occurrences du texte.
-            int index = 0;
-            while ((index = content.indexOf(searchText, index)) >= 0) {
-
-                doc.remove(index, searchText.length());
-                doc.insertString(index, replaceText, null);
-                index += replaceText.length();
-
-                // Mise à jour du contenu
-                content = doc.getText(0, doc.getLength());
-            }
-
-            // Mettre à jour les surlignages
-            rechercher(searchText, caseSensitive);
+            texteComplet = doc.getText(0, doc.getLength());
 
         } catch (BadLocationException e) {
+
             e.printStackTrace();
+
+            return;
+        }
+
+        // Si la recherche n'est pas sensible à la casse,
+        // transforme le texte à rechercher et le texte complet en minuscules.
+        if (!caseSensitive) {
+
+            texteRecherche = texteRecherche.toLowerCase();
+
+            texteComplet = texteComplet.toLowerCase();
+        }
+
+        // Remplace toutes les occurrences du texte à 
+        //rechercher par le texte de remplacement.
+        int index = 0;
+
+        while ((index = texteComplet.indexOf(texteRecherche, index)) >= 0) {
+
+            setCaretPosition(index);
+
+            replaceSelection(texteRemplacement);
+
+            index += texteRemplacement.length();
+
+            try {
+
+                texteComplet = doc.getText(0, doc.getLength());
+
+            } catch (BadLocationException e) {
+
+                e.printStackTrace();
+
+                return;
+            }
         }
     }
 }
