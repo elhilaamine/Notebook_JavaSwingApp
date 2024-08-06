@@ -13,14 +13,17 @@ import javax.swing.undo.UndoManager;
  */
 public class JTextPaneCtrlYZ extends JTextPane {
 
-    /** Gestionnaire d'annulation pour gérer les opérations d'annulation et de rétablissement. */
+    /** Gestionnaire d'annulation pour gérer les opérations
+     *  d'annulation et de rétablissement. */
     protected UndoManager undoManager;
 
     /**
      * Constructeur par défaut de la classe JTextPaneCtrlYZ.
-     * Initialise un nouvel objet UndoManager et configure les actions d'annulation et de rétablissement.
+     * Initialise un nouvel objet UndoManager et configure 
+     * les actions d'annulation et de rétablissement.
      */
     public JTextPaneCtrlYZ() {
+
         undoManager = new UndoManager();
         getDocument().addUndoableEditListener(undoManager);
         configurerAnnulationRetablissement();
@@ -28,10 +31,9 @@ public class JTextPaneCtrlYZ extends JTextPane {
 
     /**
      * Configure les actions d'annulation et de rétablissement.
-     * <p>
-     * Associe les raccourcis clavier Ctrl+Z à l'action d'annulation et Ctrl+Y à l'action de rétablissement.
+     * Associe les raccourcis clavier Ctrl+Z à l'action d'annulation 
+     * et Ctrl+Y à l'action de rétablissement.
      * Les actions sont ajoutées à la map des actions de JTextPane.
-     * </p>
      */
     private void configurerAnnulationRetablissement() {
 
