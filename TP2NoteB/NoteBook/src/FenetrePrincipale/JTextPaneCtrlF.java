@@ -168,7 +168,7 @@ public class JTextPaneCtrlF extends JTextPaneCtrlYZ {
      * @param caseSensitive Si true, la recherche est sensible à la casse.
      */
     public void remplacerTout(String searchText, String replaceText,
-                                                     boolean caseSensitive) {
+                                                 boolean caseSensitive) {
 
         try {
             // Récupère le document et son contenu.
