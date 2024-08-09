@@ -125,48 +125,80 @@ public class FenetreRechercheRemplacement extends JDialog {
      * @param zoneDeTexte la zone de texte sur laquelle effectuer 
      * les recherches et remplacements
      */
-    private void creerBoutons(JTextPaneCtrlF zoneDeTexte) {
+    // Définition de la méthode `creerBoutons` 
+    //qui prend un objet `JTextPaneCtrlF` comme paramètre.
+private void creerBoutons(JTextPaneCtrlF zoneDeTexte) {
 
-        boutonSuivant = new JButton("Suivant"); 
-        boutonSuivant.addActionListener(new ActionListener() {
+    // Création du bouton "Suivant".
+    boutonSuivant = new JButton("Suivant");
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                zoneDeTexte.rechercherSuivant(champRecherche.getText(), 
-                caseSensibilite.isSelected()); 
-            }
-        });
+    // Ajout d'un ActionListener pour le bouton "Suivant".
+    boutonSuivant.addActionListener(new ActionListener() {
 
-        boutonPrecedent = new JButton("Précédent"); 
-        boutonPrecedent.addActionListener(new ActionListener() {
+        // Redéfinition de la méthode `actionPerformed`, 
+        //qui est appelée lorsque le bouton "Suivant" est cliqué.
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            // Recherche du texte suivant dans `zoneDeTexte` 
+            //avec la sensibilité à la casse si sélectionnée.
+            zoneDeTexte.rechercherSuivant(champRecherche.getText(), 
+            caseSensibilite.isSelected());
+        }
+    });
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                zoneDeTexte.rechercher(champRecherche.getText(), 
-                caseSensibilite.isSelected()); 
-            }
-        });
+    // Création du bouton "Précédent".
+    boutonPrecedent = new JButton("Précédent");
 
-        boutonRemplacer = new JButton("Remplacer"); 
-        boutonRemplacer.addActionListener(new ActionListener() {
+    // Ajout d'un ActionListener pour le bouton "Précédent".
+    boutonPrecedent.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                zoneDeTexte.remplacer(champRecherche.getText(),
-                 champRemplacement.getText(), caseSensibilite.isSelected()); 
-            }
-        });
+        // Redéfinition de la méthode `actionPerformed`, 
+        //qui est appelée lorsque le bouton "Précédent" est cliqué.
+        @Override
+        public void actionPerformed(ActionEvent e) {
 
-        boutonRemplacerTout = new JButton("Remplacer tout"); 
-        boutonRemplacerTout.addActionListener(new ActionListener() {
+            // Recherche du texte précédent dans `zoneDeTexte`
+            // avec la sensibilité à la casse si sélectionnée.
+            zoneDeTexte.rechercher(champRecherche.getText(), 
+            caseSensibilite.isSelected());
+        }
+    });
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                zoneDeTexte.remplacerTout(champRecherche.getText(),
-                 champRemplacement.getText(), caseSensibilite.isSelected()); 
-            }
-        });
+    // Création du bouton "Remplacer".
+    boutonRemplacer = new JButton("Remplacer");
 
-     }
+    // Ajout d'un ActionListener pour le bouton "Remplacer".
+    boutonRemplacer.addActionListener(new ActionListener() {
+
+        // Redéfinition de la méthode `actionPerformed`, 
+        //qui est appelée lorsque le bouton "Remplacer" est cliqué.
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            // Remplace la première occurrence du texte recherché 
+            //par le texte de remplacement dans `zoneDeTexte`.
+            zoneDeTexte.remplacer(champRecherche.getText(),
+             champRemplacement.getText(), caseSensibilite.isSelected());
+        }
+    });
+
+    // Création du bouton "Remplacer tout".
+    boutonRemplacerTout = new JButton("Remplacer tout");
+
+    // Ajout d'un ActionListener pour le bouton "Remplacer tout".
+    boutonRemplacerTout.addActionListener(new ActionListener() {
+
+        // Redéfinition de la méthode `actionPerformed`,
+        // qui est appelée lorsque le bouton "Remplacer tout" est cliqué.
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            // Remplace toutes les occurrences du texte recherché 
+            //par le texte de remplacement dans `zoneDeTexte`.
+            zoneDeTexte.remplacerTout(champRecherche.getText(),
+             champRemplacement.getText(), caseSensibilite.isSelected());
+        }
+    });
+}
 }
